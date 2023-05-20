@@ -12,7 +12,6 @@ SDL_Texture *texture;
 // helper function to create window, renderer, and texture
 void initialize_SDL() {
   printf("Initialzing Screen\n");
-  SDL_Window *window = NULL;
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     printf("SDL Could not be initialized! Error: %s\n", SDL_GetError());
     exit(EXIT_FAILURE);
@@ -32,7 +31,8 @@ void initialize_SDL() {
                               SDL_TEXTUREACCESS_STREAMING, SCREEN_WIDTH,
                               SCREEN_HEIGHT);
 }
-
+// helper function to free memory allocated for window, renderer, and texture
+void cleanup_SDL() {}
 int main(int argc, char *argv[]) {
   initialize_SDL();
   return EXIT_SUCCESS;

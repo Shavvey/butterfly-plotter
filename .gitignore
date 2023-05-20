@@ -1,2 +1,8 @@
+# ignore all C object files
 *.o
+# ignore all precompilied header files
 *.gch
+# ignore the final executable
+butterfly-plotter
+# ignore sym files
+butterfly-plotter.dSYM
