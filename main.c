@@ -1,9 +1,14 @@
 #include "plotter.h"
 #include "screen.h"
+/*WINDOW CONSTANTS*/
 // define screen height, width, and animation ticks
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 1000
 #define NANO_PER_SEC 1000000000.0
+/*SDL CONSTANTS*/
+SDL_Window *window;
+SDL_Renderer *renderer;
+SDL_Texture *texture;
 // helper function to create window, renderer, and texture
 void initialize_SDL() {
   printf("Initialzing Screen\n");
@@ -22,11 +27,10 @@ void initialize_SDL() {
   }
   // create SDL renderer and texture
   // init renderer with hardware acceleration (GPU accelerated rendering)
-  SDL_Renderer *renderer =
-      SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32,
-                                           SDL_TEXTUREACCESS_STREAMING,
-                                           SCREEN_WIDTH, SCREEN_HEIGHT);
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32,
+                              SDL_TEXTUREACCESS_STREAMING, SCREEN_WIDTH,
+                              SCREEN_HEIGHT);
 }
 
 int main(int argc, char *argv[]) {
