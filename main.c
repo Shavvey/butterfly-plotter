@@ -9,6 +9,8 @@
 SDL_Window *window;
 SDL_Renderer *renderer;
 SDL_Texture *texture;
+// pixel buffer used for bitmap graphics
+uint32_t *pixelbuffer;
 // helper function to create window, renderer, and texture
 void initialize_SDL() {
   printf("Initialzing Screen\n");
@@ -30,10 +32,50 @@ void initialize_SDL() {
   texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32,
                               SDL_TEXTUREACCESS_STREAMING, SCREEN_WIDTH,
                               SCREEN_HEIGHT);
+  // creating the pixel buffer used to update texturer and window
+  pixelbuffer = malloc(sizeof(uint32_t) * SCREEN_HEIGHT * SCREEN_WIDTH);
+  // color information is representing by a 32 bit unsigned integer, we
+  // initialized the pixel buffer to be white
+  memset(pixelbuffer, 0xFF, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
 }
 // helper function to free memory allocated for window, renderer, and texture
-void cleanup_SDL() {}
+void cleanup_SDL() {
+  if (texture) {
+    SDL_DestroyTexture(texture);
+  }
+  if (renderer) {
+    SDL_DestroyRenderer(renderer);
+  }
+  if (window) {
+    SDL_DestroyWindow(window);
+  }
+  SDL_Quit();
+}
+void event_loop_SDL() {
+  int ended = 0;
+  SDL_Event event;
+  while (!ended) {
+    SDL_UpdateTexture(texture, NULL, pixelbuffer,
+                      SCREEN_WIDTH * sizeof(uint32_t));
+    // poll for SLD Events
+    while (SDL_PollEvent(&event)) {
+      switch (event.type) {
+      case SDL_KEYDOWN:
+        break;
+      case SDL_QUIT:
+        ended = 1;
+        break;
+      }
+    }
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderPresent(renderer);
+  }
+}
 int main(int argc, char *argv[]) {
   initialize_SDL();
+  event_loop_SDL();
+  cleanup_SDL();
+  printf("Number of args: %d\n", argc);
   return EXIT_SUCCESS;
 }

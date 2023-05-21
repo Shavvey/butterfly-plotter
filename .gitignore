@@ -6,3 +6,4 @@
 butterfly-plotter
 # ignore sym files
 butterfly-plotter.dSYM
+butterfly-plotter.dSYM/*
