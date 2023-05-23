@@ -6,17 +6,26 @@ CFLAGS=-W -Wall -g
 SDL_CFLAGS := $(shell sdl2-config --cflags) 
 # tells linker what libraries to include
 SDL_LDFLAGS := $(shell sdl2-config --libs) -lm
-
+# plotter source files
 PLOT = plotter.c plotter.h
-
+# dependencies for final executable
+DEPS = main.c plotter.o
+# executable name
+EXEC = butterfly-plotter
+#make these targets: main and plotter.o
 all: main plotter.o
 
-plotter.o: plotter.c plotter.h
-	$(CC) $(CFLAGS) -c plotter.c -lm
+#make object file, do not run linker yet
+plotter.o: $(PLOT)
+	$(CC) $(CFLAGS) -c $(PLOT)
 
+#make final executable
 main: plotter.o plotter.h
-	$(CC) $(CFLAGS) $(SDL_CFLAGS) main.c plotter.o -o butterfly-plotter $(SDL_LDFLAGS)
+	$(CC) $(CFLAGS) $(SDL_CFLAGS) $(DEPS) -o $(EXEC) $(SDL_LDFLAGS)
 
+#.PHONY rule ensures make doesn't use clean as a file
 .PHONY : clean
+
+#cleans out object files and final executable
 clean: 
-	rm butterfly-plotter plotter.o
+	rm $(EXEC) *.o

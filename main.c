@@ -35,8 +35,8 @@ void initialize_SDL() {
   // creating the pixel buffer used to update texturer and window
   pixelbuffer = malloc(sizeof(uint32_t) * SCREEN_HEIGHT * SCREEN_WIDTH);
   // color information is representing by a 32 bit unsigned integer, we
-  // initialized the pixel buffer to be white
-  memset(pixelbuffer, 0xFF, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
+  // initialized the pixel buffer to be black
+  memset(pixelbuffer, 0x00, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
 }
 // helper function to free memory allocated for window, renderer, and texture
 void cleanup_SDL() {
@@ -51,7 +51,12 @@ void cleanup_SDL() {
   }
   SDL_Quit();
 }
+// SDL event loop helper function
+// First, we update the texture based on pixelbuffer
+// Then, we poll for keyboards event and execute commands accordingly
+// Lastly, we load the texture into the renderer
 void event_loop_SDL() {
+  // main loop of SDL window
   int ended = 0;
   SDL_Event event;
   while (!ended) {
@@ -59,9 +64,11 @@ void event_loop_SDL() {
                       SCREEN_WIDTH * sizeof(uint32_t));
     // poll for SLD Events
     while (SDL_PollEvent(&event)) {
+      // polling for different events inside SDL
       switch (event.type) {
       case SDL_KEYDOWN:
         break;
+        // quits out of window
       case SDL_QUIT:
         ended = 1;
         break;
@@ -73,8 +80,11 @@ void event_loop_SDL() {
   }
 }
 int main(int argc, char *argv[]) {
+  // init window, renderer, and texturer
   initialize_SDL();
+  // poll for SDL events and keyboard inputs
   event_loop_SDL();
+  // cleanup memory allocated to SDL
   cleanup_SDL();
   printf("Number of args: %d\n", argc);
   return EXIT_SUCCESS;
