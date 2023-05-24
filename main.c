@@ -28,7 +28,7 @@ void initialize_SDL() {
   }
   // create SDL renderer and texture
   // init renderer with hardware acceleration (GPU accelerated rendering)
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  renderer = SDL_CreateRenderer(window, 1, SDL_RENDERER_ACCELERATED);
   texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32,
                               SDL_TEXTUREACCESS_STREAMING, SCREEN_WIDTH,
                               SCREEN_HEIGHT);
