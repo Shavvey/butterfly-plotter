@@ -73,7 +73,11 @@ void event_loop_SDL() {
         ended = 1;
         break;
       }
+      // listen for keyboard input do action accordingly
+      switch (event.key.keysym.sym) {}
+      // initialize sim and do main loop for it, provided by plotter.c
     }
+    // update renderer based on newly provided texture
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_RenderPresent(renderer);
