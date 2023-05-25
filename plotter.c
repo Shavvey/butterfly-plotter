@@ -17,7 +17,10 @@ void sim_start() {
   double speed_mult = 1.0;
   // used to paused drawing
   bool paused = false;
-  // setup the vertex array
+  // setup the vertex array, this is an insane ammount of memory
+  vertex_t vertex_array[ITERS * STEPS_PER_FRAME];
 }
 
-void sim_loop() {}
+void sim_loop() {
+  // main loop for each iteration of the butterfly plotter
+}

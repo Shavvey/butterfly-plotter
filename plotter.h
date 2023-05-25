@@ -1,12 +1,13 @@
-// plotter imports
+/*IMPORTS*/
 #include <stdbool.h>
 #include <stdint.h>
+/*GLOBAL VARS*/
 // globals for entire plotter
 #define ITERS 800
 #define STEPS_PER_FRAME 500
 // NOTE: I want parameters working, eventually, so im adding this now
 #define NUM_PARAMS 18
-// struct implementation
+/*STRUCT IMPLEMENATION*/
 typedef struct color {
   uint8_t r;
   uint8_t g;
@@ -15,8 +16,8 @@ typedef struct color {
 } color_t;
 
 typedef struct vector {
-  double x; // x component of vector
-  double y; // y component of vector
+  float x; // x component of vector
+  float y; // y component of vector
 } vector_t;
 typedef struct vertex {
   // each vertex has a vector component
@@ -27,6 +28,7 @@ typedef struct vertex {
 // simulation vars, mutable vars that run the simulation
 extern double t;
 extern vector_t history[ITERS];
+extern vertex_t vertex_array[ITERS * STEPS_PER_FRAME];
 extern double speed_mult;
 // eventually i want to start and stop the sim
 extern bool paused;

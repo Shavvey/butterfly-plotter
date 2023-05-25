@@ -91,6 +91,6 @@ int main(int argc, char *argv[]) {
   event_loop_SDL();
   // cleanup memory allocated to SDL
   cleanup_SDL();
-  printf("Number of args: %d\n", argc);
+  // printf("Number of args: %d\n", argc);
   return EXIT_SUCCESS;
 }
