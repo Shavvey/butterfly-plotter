@@ -1,6 +1,10 @@
 /*IMPORTS*/
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
+// ifndef guard to protect from multiple header definitions
+#ifndef PLOTTER_H
+#define PLOTTER_H
 /*GLOBAL VARS*/
 // globals for entire plotter
 #define ITERS 800
@@ -14,7 +18,6 @@ typedef struct color {
   uint8_t b;
   uint8_t a;
 } color_t;
-
 typedef struct vector {
   float x; // x component of vector
   float y; // y component of vector
@@ -38,3 +41,4 @@ extern bool rolling_delta;
 /*FUNCTION PROTOTYPING*/
 void sim_start();
 void sim_loop();
+#endif

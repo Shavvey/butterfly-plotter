@@ -1,4 +1,5 @@
 #include "plotter.h"
+#include "screen.h"
 // global constants
 #include <stdint.h>
 
@@ -24,3 +25,5 @@ void sim_start() {
 void sim_loop() {
   // main loop for each iteration of the butterfly plotter
 }
+// main idea is have a update and draw function that preforms the iteration
+// and draws the resulting output to the pixel_buffer

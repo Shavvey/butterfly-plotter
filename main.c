@@ -51,6 +51,10 @@ void cleanup_SDL() {
   }
   SDL_Quit();
 }
+void draw() {
+  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+  SDL_RenderDrawLineF(renderer, 10.0, 10.0, 90.0, 90.0);
+}
 // SDL event loop helper function
 // First, we update the texture based on pixelbuffer
 // Then, we poll for keyboards event and execute commands accordingly
@@ -62,7 +66,7 @@ void event_loop_SDL() {
   while (!ended) {
     SDL_UpdateTexture(texture, NULL, pixelbuffer,
                       SCREEN_WIDTH * sizeof(uint32_t));
-    // poll for SLD Events
+    // poll for SDL Events
     while (SDL_PollEvent(&event)) {
       // polling for different events inside SDL
       switch (event.type) {
@@ -78,9 +82,11 @@ void event_loop_SDL() {
       // initialize sim and do main loop for it, provided by plotter.c
       sim_start();
     }
-    // update renderer based on newly provided texture
     SDL_RenderClear(renderer);
+    // this updates the renderer based on a texture, used by pixelbuffer
+    // sets the background to be black
     SDL_RenderCopy(renderer, texture, NULL, NULL);
+    draw();
     SDL_RenderPresent(renderer);
   }
 }
