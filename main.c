@@ -1,16 +1,25 @@
+#include "SDL_FontCache/SDL_FontCache.h"
 #include "plotter.h"
 #include "screen.h"
 /*WINDOW CONSTANTS*/
 // define screen height, width, and animation ticks
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 1000
-#define NANO_PER_SEC 1000000000.0
 /*SDL CONSTANTS*/
 SDL_Window *window;
 SDL_Renderer *renderer;
 SDL_Texture *texture;
 // pixel buffer used for bitmap graphics
 uint32_t *pixelbuffer;
+TTF_Font *font;
+// helper function to make text on SDL window
+void make_text() {
+  font = TTF_OpenFont("Roboto-Regular.ttf", 24);
+  SDL_Color white = {255, 255, 255, 255};
+  SDL_Surface *surface_message =
+      TTF_RenderText_Solid(font, "Example Text", white);
+  texture = SDL_CreateTextureFromSurface(renderer, surface_message);
+}
 // helper function to create window, renderer, and texture
 void initialize_SDL() {
   printf("Initialzing Screen\n");

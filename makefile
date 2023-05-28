@@ -3,9 +3,9 @@ CC=gcc
 # using common compilier flags
 CFLAGS=-W -Wall -g
 # this tells the compilier where the sdl2 binaries are located
-SDL_CFLAGS := $(shell sdl2-config --cflags) 
+SDL_CFLAGS := $(shell sdl2-config --cflags) -lSDL2_tff
 # tells linker what libraries to include
-SDL_LDFLAGS := $(shell sdl2-config --libs) -lm
+SDL_LDFLAGS := $(shell sdl2-config --libs) -lm -lSDL2
 # plotter source files
 PLOT = plotter.c plotter.h
 # dependencies for final executable
