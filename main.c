@@ -1,4 +1,3 @@
-#include "SDL_FontCache/SDL_FontCache.h"
 #include "plotter.h"
 #include "screen.h"
 /*WINDOW CONSTANTS*/
@@ -13,13 +12,7 @@ SDL_Texture *texture;
 uint32_t *pixelbuffer;
 TTF_Font *font;
 // helper function to make text on SDL window
-void make_text() {
-  font = TTF_OpenFont("Roboto-Regular.ttf", 24);
-  SDL_Color white = {255, 255, 255, 255};
-  SDL_Surface *surface_message =
-      TTF_RenderText_Solid(font, "Example Text", white);
-  texture = SDL_CreateTextureFromSurface(renderer, surface_message);
-}
+void make_text() {}
 // helper function to create window, renderer, and texture
 void initialize_SDL() {
   printf("Initialzing Screen\n");

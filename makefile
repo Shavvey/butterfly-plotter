@@ -9,20 +9,19 @@ SDL_LDFLAGS := $(shell sdl2-config --libs) -lm -lSDL2 -lSDL2_ttf
 # plotter source files
 PLOT = plotter.c plotter.h
 # dependencies for final executable
-DEPS = main.c plotter.o SDL_FontCache.o
-CACHE = SDL_FontCache/SDL_FontCache.c SDL_FontCache/SDL_FontCache.h include/SDL2/SDL_ttf.h
+DEPS = main.c plotter.o
 # executable name
 EXEC = butterfly-plotter
 #make these targets: main and plotter.o
-all: main plotter.o SDL_FontCache.o
+all: main plotter.o
 
 #make object file, do not run linker yet
 plotter.o: $(PLOT)
 	$(CC) $(CFLAGS) -c $(PLOT)
 
-SDL_FontCache.o: $(CACHE)
-	$(CC) $(CFLAGS) -c $(CACHE)
-
+# SDL_FontCache.o: $(CACHE)
+# 	$(CC) $(CFLAGS) -c $(CACHE)
+#
 #make final executable
 main: $(DEPS)
 	$(CC) $(CFLAGS) $(SDL_CFLAGS) $(DEPS) -o $(EXEC) $(SDL_LDFLAGS)
