@@ -90,6 +90,7 @@ void event_loop_SDL() {
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     draw();
     SDL_RenderPresent(renderer);
+    // present the renderer window after loading the texture into the renderer
   }
 }
 int main(int argc, char *argv[]) {
