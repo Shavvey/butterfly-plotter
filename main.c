@@ -11,13 +11,11 @@ SDL_Texture *texture;
 // pixel buffer used for bitmap graphics
 uint32_t *pixelbuffer;
 TTF_Font *font;
-// new message to be displayed on screen
-SDL_Surface *surface_message;
-SDL_Texture *message;
 // helper function to make text on SDL window
 void make_text() {
+  TTF_Init();
   // this opens a font style and sets a size
-  font = TTF_OpenFont("OpenSans-Regular.ttf", 24);
+  font = TTF_OpenFont("OpenSans-Regular.ttf", 30);
 
   // this is the color in rgb format,
   // maxing out all would give you the color white,
@@ -26,11 +24,12 @@ void make_text() {
 
   // as TTF_RenderText_Solid could only be used on
   // SDL_Surface then you have to create the surface first
-  surface_message =
-      TTF_RenderText_Solid(font, "put your text here", font_color);
+  SDL_Surface *surface_message =
+      TTF_RenderText_Solid(font, "Hello, World!", font_color);
 
   // now you can convert it into a texture
-  message = SDL_CreateTextureFromSurface(renderer, surface_message);
+  SDL_Texture *message =
+      SDL_CreateTextureFromSurface(renderer, surface_message);
 
   SDL_Rect message_rect; // create a rect
   message_rect.x = 50;   // controls the rect's x coordinate
@@ -50,6 +49,8 @@ void make_text() {
   // to dabble with cropping), and the rect which is the size
   // and coordinate of your texture
   SDL_RenderCopy(renderer, message, NULL, &message_rect);
+  SDL_FreeSurface(surface_message);
+  SDL_DestroyTexture(message);
 }
 // helper function to create window, renderer, and texture
 void initialize_SDL() {
@@ -77,7 +78,6 @@ void initialize_SDL() {
   // color information is representing by a 32 bit unsigned integer, we
   // initialized the pixel buffer to be black
   memset(pixelbuffer, 0x00, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
-  make_text();
 }
 // helper function to free memory allocated for window, renderer, and texture
 void cleanup_SDL() {
@@ -90,13 +90,7 @@ void cleanup_SDL() {
   if (window) {
     SDL_DestroyWindow(window);
   }
-  // Don't forget to free your surface and texture
-  if (surface_message) {
-    SDL_FreeSurface(surface_message);
-  }
-  if (message) {
-    SDL_DestroyTexture(message);
-  }
+
   SDL_Quit();
 }
 void draw() {
@@ -135,6 +129,7 @@ void event_loop_SDL() {
     // sets the background to be black
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     draw();
+    make_text();
     SDL_RenderPresent(renderer);
     // present the renderer window after loading the texture into the renderer
   }
