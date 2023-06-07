@@ -11,29 +11,32 @@ SDL_Texture *texture;
 // pixel buffer used for bitmap graphics
 uint32_t *pixelbuffer;
 TTF_Font *font;
+// new message to be displayed on screen
+SDL_Surface *surface_message;
+SDL_Texture *message;
 // helper function to make text on SDL window
 void make_text() {
   // this opens a font style and sets a size
-  TTF_Font *Sans = TTF_OpenFont("fonts/OpenSans-Regular.ttf", 24);
+  font = TTF_OpenFont("fonts/OpenSans-Regular.ttf", 24);
 
   // this is the color in rgb format,
   // maxing out all would give you the color white,
   // and it will be your text's color
-  SDL_Color White = {255, 255, 255};
+  SDL_Color font_color = {255, 255, 255};
 
   // as TTF_RenderText_Solid could only be used on
   // SDL_Surface then you have to create the surface first
-  SDL_Surface *surfaceMessage =
-      TTF_RenderText_Solid(Sans, "put your text here", White);
+  surface_message =
+      TTF_RenderText_Solid(font, "put your text here", font_color);
 
   // now you can convert it into a texture
-  SDL_Texture *Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+  message = SDL_CreateTextureFromSurface(renderer, surface_message);
 
-  SDL_Rect Message_rect; // create a rect
-  Message_rect.x = 0;    // controls the rect's x coordinate
-  Message_rect.y = 0;    // controls the rect's y coordinte
-  Message_rect.w = 100;  // controls the width of the rect
-  Message_rect.h = 100;  // controls the height of the rect
+  SDL_Rect message_rect; // create a rect
+  message_rect.x = 50;   // controls the rect's x coordinate
+  message_rect.y = 50;   // controls the rect's y coordinte
+  message_rect.w = 100;  // controls the width of the rect
+  message_rect.h = 100;  // controls the height of the rect
 
   // (0,0) is on the top left of the window/screen,
   // think a rect as the text's box,
@@ -46,7 +49,7 @@ void make_text() {
   // the crop size (you can ignore this if you don't want
   // to dabble with cropping), and the rect which is the size
   // and coordinate of your texture
-  SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
+  SDL_RenderCopy(renderer, message, NULL, &message_rect);
 }
 // helper function to create window, renderer, and texture
 void initialize_SDL() {
@@ -86,6 +89,13 @@ void cleanup_SDL() {
   if (window) {
     SDL_DestroyWindow(window);
   }
+  // Don't forget to free your surface and texture
+  if (surface_message) {
+    SDL_FreeSurface(surface_message);
+  }
+  if (message) {
+    SDL_DestroyTexture(message);
+  }
   SDL_Quit();
 }
 void draw() {
@@ -123,6 +133,7 @@ void event_loop_SDL() {
     // this updates the renderer based on a texture, used by pixelbuffer
     // sets the background to be black
     SDL_RenderCopy(renderer, texture, NULL, NULL);
+    make_text();
     draw();
     SDL_RenderPresent(renderer);
     // present the renderer window after loading the texture into the renderer
