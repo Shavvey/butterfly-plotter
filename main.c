@@ -17,7 +17,7 @@ SDL_Texture *message;
 // helper function to make text on SDL window
 void make_text() {
   // this opens a font style and sets a size
-  font = TTF_OpenFont("fonts/OpenSans-Regular.ttf", 24);
+  font = TTF_OpenFont("OpenSans-Regular.ttf", 24);
 
   // this is the color in rgb format,
   // maxing out all would give you the color white,
@@ -77,6 +77,7 @@ void initialize_SDL() {
   // color information is representing by a 32 bit unsigned integer, we
   // initialized the pixel buffer to be black
   memset(pixelbuffer, 0x00, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
+  make_text();
 }
 // helper function to free memory allocated for window, renderer, and texture
 void cleanup_SDL() {
@@ -133,7 +134,6 @@ void event_loop_SDL() {
     // this updates the renderer based on a texture, used by pixelbuffer
     // sets the background to be black
     SDL_RenderCopy(renderer, texture, NULL, NULL);
-    make_text();
     draw();
     SDL_RenderPresent(renderer);
     // present the renderer window after loading the texture into the renderer
