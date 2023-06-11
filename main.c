@@ -10,12 +10,10 @@ SDL_Renderer *renderer;
 SDL_Texture *texture;
 // pixel buffer used for bitmap graphics
 uint32_t *pixelbuffer;
-TTF_Font *font;
 // helper function to make text on SDL window
 void make_text() {
-  TTF_Init();
   // this opens a font style and sets a size
-  font = TTF_OpenFont("OpenSans-Regular.ttf", 30);
+  TTF_Font *font = TTF_OpenFont("OpenSans-Regular.ttf", 30);
 
   // this is the color in rgb format,
   // maxing out all would give you the color white,
@@ -49,6 +47,7 @@ void make_text() {
   // to dabble with cropping), and the rect which is the size
   // and coordinate of your texture
   SDL_RenderCopy(renderer, message, NULL, &message_rect);
+  // destory surface and texture afterwards
   SDL_FreeSurface(surface_message);
   SDL_DestroyTexture(message);
 }
@@ -65,6 +64,11 @@ void initialize_SDL() {
                             SDL_WINDOW_SHOWN);
   if (window == NULL) {
     printf("Window could not be created! Error: %s\n", SDL_GetError());
+    exit(EXIT_FAILURE);
+  }
+  printf("Initialzing TTF engine\n");
+  if (TTF_Init() < 0) {
+    printf("TTF could not be initialized\n");
     exit(EXIT_FAILURE);
   }
   // create SDL renderer and texture
@@ -90,8 +94,10 @@ void cleanup_SDL() {
   if (window) {
     SDL_DestroyWindow(window);
   }
-
+  // quit of SDL engine, deinitializes everything!
   SDL_Quit();
+  // do the same of TTF engine
+  TTF_Quit();
 }
 void draw() {
   SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -128,7 +134,9 @@ void event_loop_SDL() {
     // this updates the renderer based on a texture, used by pixelbuffer
     // sets the background to be black
     SDL_RenderCopy(renderer, texture, NULL, NULL);
-    draw();
+    // draw();
+    // makes the texture necessary for each frame of the screen!
+    // this is a little inefficient, but oh well
     make_text();
     SDL_RenderPresent(renderer);
     // present the renderer window after loading the texture into the renderer
