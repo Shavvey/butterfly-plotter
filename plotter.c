@@ -1,5 +1,5 @@
 #include "plotter.h"
-#include "screen.h"
+#include "sdl.h"
 // global constants
 #include <stdint.h>
 
