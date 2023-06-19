@@ -1,5 +1,5 @@
 #include "plotter.h"
-#include "screen.h"
+#include "sdl.h"
 /*WINDOW CONSTANTS*/
 // define screen height, width, and animation ticks
 #define SCREEN_WIDTH 1000
