@@ -3,7 +3,7 @@
 /*WINDOW CONSTANTS*/
 // define screen height, width, and animation ticks
 #define SCREEN_WIDTH 1000
-#define SCREEN_HEIGHT 1000
+#define SCREEN_HEIGHT (SCREEN_WIDTH)
 /*SDL CONSTANTS*/
 SDL_Window *window;
 SDL_Renderer *renderer;
@@ -11,6 +11,7 @@ SDL_Texture *texture;
 // pixel buffer used for bitmap graphics
 uint32_t *pixelbuffer;
 // helper function to make text on SDL window
+
 void make_text() {
   // this opens a font style and sets a size
   TTF_Font *font = TTF_OpenFont("OpenSans-Regular.ttf", 30);
@@ -68,7 +69,7 @@ void initialize_SDL() {
   }
   printf("Initialzing TTF engine\n");
   if (TTF_Init() < 0) {
-    printf("TTF could not be initialized\n");
+    fprintf(stderr, "TTF could not be initialized\n");
     exit(EXIT_FAILURE);
   }
   // create SDL renderer and texture
@@ -149,6 +150,5 @@ int main(int argc, char *argv[]) {
   event_loop_SDL();
   // cleanup memory allocated to SDL
   cleanup_SDL();
-  // printf("Number of args: %d\n", argc);
   return EXIT_SUCCESS;
 }
